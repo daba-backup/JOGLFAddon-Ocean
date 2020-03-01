@@ -9,8 +9,23 @@
 
 	<packaging>pom</packaging>
 
-	<name>joglfaddon-ocean</name>
-	<url>http://maven.apache.org</url>
+	<name>JOGLFAddon-Ocean</name>
+	<description>Ocean addon for JOGLFramework</description>
+	<url>https://github.com/Dabasan/JOGLFAddon-Ocean</url>
+
+	<licenses>
+		<license>
+			<name>MIT</name>
+			<url>https://github.com/Dabasan/JOGLFAddon-Ocean/blob/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Hirotsugu Daba</name>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
