@@ -5,9 +5,7 @@
 
 	<groupId>com.github.dabasan</groupId>
 	<artifactId>joglfaddon-ocean</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-
-	<packaging>pom</packaging>
+	<version>1.0.0</version>
 
 	<name>JOGLFAddon-Ocean</name>
 	<description>Ocean addon for JOGLFramework</description>
@@ -38,17 +36,19 @@
 		</snapshotRepository>
 		<repository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<scm>
-        <connection>scm:git:https://github.com/Dabasan/JOGLFAddon-Ocean.git</connection>
-        <developerConnection>scm:git:https://github.com/Dabasan/JOGLFAddon-Ocean.git</developerConnection>
-        <url>https://github.com/Dabasan/JOGLFAddon-Ocean</url>
-    </scm>
+		<connection>scm:git:https://github.com/Dabasan/JOGLFAddon-Ocean.git</connection>
+		<developerConnection>scm:git:https://github.com/Dabasan/JOGLFAddon-Ocean.git</developerConnection>
+		<url>https://github.com/Dabasan/JOGLFAddon-Ocean</url>
+	</scm>
 
 	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
