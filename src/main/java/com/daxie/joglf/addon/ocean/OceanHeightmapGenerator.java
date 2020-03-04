@@ -35,6 +35,8 @@ public class OceanHeightmapGenerator {
 	 * @param wz Z-component of the wind direction
 	 */
 	public OceanHeightmapGenerator(int N,float L,float A,float v,float wx,float wz) {
+		ProgramCreator.Create();
+		
 		this.N=N;
 		this.Prepare(L, A, v, wx, wz);
 		
@@ -117,10 +119,14 @@ public class OceanHeightmapGenerator {
 		GLWrapper.glGetTexImage(GL4.GL_TEXTURE_2D, 0, GL4.GL_RED, GL4.GL_FLOAT, z_component_buf);
 		GLWrapper.glBindTexture(GL4.GL_TEXTURE_2D, 0);
 		
-		int size=N*N;
-		for(int i=0;i<size;i++) {
-			Vector coord=VectorFunctions.VGet(x_component_buf.get(), y_component_buf.get(), z_component_buf.get());
-			coords.add(coord);
+		coords.clear();
+		for(int z=0;z<N;z++) {
+			for(int x=0;x<N;x++) {
+				Vector vtemp=VectorFunctions.VGet(x_component_buf.get(), y_component_buf.get(), z_component_buf.get());
+				vtemp=VectorFunctions.VAdd(vtemp, VectorFunctions.VGet(x, 0.0f, z));
+				
+				coords.add(vtemp);
+			}
 		}
 	}
 	

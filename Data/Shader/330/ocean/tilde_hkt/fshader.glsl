@@ -4,7 +4,7 @@ uniform sampler2D tilde_h0k;
 uniform sampler2D tilde_h0minusk;
 
 uniform int N;
-uniform int L;
+uniform float L;
 uniform float t;
 
 const float M_PI=3.1415926536;

@@ -43,8 +43,6 @@
 	</distributionManagement>
 
 	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -119,7 +117,7 @@
 		<dependency>
 			<groupId>com.github.dabasan</groupId>
 			<artifactId>joglframework-gl</artifactId>
-			<version>10.1.0-SNAPSHOT</version>
+			<version>10.1.0</version>
 		</dependency>
 	</dependencies>
 </project>

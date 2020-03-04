@@ -5,7 +5,6 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.Random;
 
-import com.daxie.joglf.gl.shader.GLShaderFunctions;
 import com.daxie.joglf.gl.shader.ShaderProgram;
 import com.daxie.joglf.gl.transferrer.FullscreenQuadTransferrer;
 import com.daxie.joglf.gl.wrapper.GLWrapper;
@@ -114,10 +113,6 @@ class TildeH0kComputation {
 		GLWrapper.glBindFramebuffer(GL4.GL_FRAMEBUFFER, 0);
 	}
 	private void SetupProgram() {
-		GLShaderFunctions.CreateProgram(
-				"tilde_h0k", 
-				"./Data/Shader/330/ocean/tilde_h0k/vshader.glsl",
-				"./Data/Shader/330/ocean/tilde_h0k/fshader.glsl");
 		program=new ShaderProgram("tilde_h0k");
 	}
 	

@@ -3,7 +3,7 @@
 uniform sampler2D uniform_rnds;
 
 uniform int N;
-uniform int L;
+uniform float L;
 uniform float A;
 uniform float v;//Wind speed
 uniform vec2 w;//Direction of the wind
