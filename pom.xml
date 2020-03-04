@@ -41,6 +41,12 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
+	
+	<scm>
+        <connection>scm:git:https://github.com/Dabasan/JOGLFAddon-Ocean.git</connection>
+        <developerConnection>scm:git:https://github.com/Dabasan/JOGLFAddon-Ocean.git</developerConnection>
+        <url>https://github.com/Dabasan/JOGLFAddon-Ocean</url>
+    </scm>
 
 	<build>
 		<plugins>
