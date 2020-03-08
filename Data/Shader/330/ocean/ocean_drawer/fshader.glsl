@@ -36,6 +36,7 @@ vec4 Lighting(){
     float th_i=asin(sin_th_i);
     float th_t=asin(sin_th_t);
     float specular=pow(sin(th_t-th_i),2.0)/pow(sin(th_t+th_i),2.0)+pow(tan(th_t-th_i),2.0)/pow(tan(th_t+th_i),2.0);
+    specular*=0.5;
 
     vec4 diffuse_color=vec4(water_diffuse_color*diffuse*diffuse_power);
     vec4 specular_color=vec4(water_specular_color*specular*specular_power);

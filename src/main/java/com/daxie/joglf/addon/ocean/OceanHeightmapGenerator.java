@@ -133,8 +133,6 @@ public class OceanHeightmapGenerator {
 				coords.add(vtemp);
 			}
 		}
-		
-		System.out.println(coords.size());
 	}
 	
 	public List<Vector> GetCoords(){

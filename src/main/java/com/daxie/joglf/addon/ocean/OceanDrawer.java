@@ -130,7 +130,7 @@ public class OceanDrawer {
 		
 		program.SetUniform("ambient_color", ColorU8Functions.GetColorU8(0.0f, 0.0f, 0.0f, 0.0f));
 		program.SetUniform("diffuse_power", 0.7f);
-		program.SetUniform("specular_power", 4.0f);
+		program.SetUniform("specular_power", 3.0f);
 		program.SetUniform("water_diffuse_color", ColorU8Functions.GetColorU8(0.25f, 0.58f, 0.92f, 1.0f));
 		program.SetUniform("water_specular_color", ColorU8Functions.GetColorU8(1.0f, 1.0f, 1.0f, 1.0f));
 		program.SetUniform("water_refractive_index", 1.33f);
@@ -138,8 +138,19 @@ public class OceanDrawer {
 	
 	public void Draw() {
 		program.Enable();
-		program.SetUniform("offset", VectorFunctions.VGet(0.0f, 0.0f, 0.0f));
-		program.SetUniform("scale", VectorFunctions.VGet(1.0f, 1.0f, 1.0f));
-		drawer.Transfer();
+		
+		float offset_x=0.0f;
+		float offset_z=0.0f;
+		for(int i=0;i<5;i++) {
+			for(int j=0;j<5;j++) {
+				program.SetUniform("offset", VectorFunctions.VGet(offset_x, 0.0f, offset_z));
+				program.SetUniform("scale", VectorFunctions.VGet(1.0f, 1.0f, 1.0f));
+				drawer.Transfer();
+				
+				offset_x+=(float)N;
+			}
+			offset_x=0.0f;
+			offset_z+=(float)N;
+		}
 	}
 }
