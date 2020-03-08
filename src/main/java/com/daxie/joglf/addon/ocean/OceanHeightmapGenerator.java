@@ -40,7 +40,7 @@ public class OceanHeightmapGenerator {
 		this.N=N;
 		this.Prepare(L, A, v, wx, wz);
 		
-		coords=new ArrayList<>(N*N);
+		coords=new ArrayList<>((N+1)*(N+1));
 	}
 	public void Prepare(float L,float A,float v,float wx,float wz) {
 		TildeH0kComputation[] tilde_h0k_computations=new TildeH0kComputation[3];
@@ -120,14 +120,21 @@ public class OceanHeightmapGenerator {
 		GLWrapper.glBindTexture(GL4.GL_TEXTURE_2D, 0);
 		
 		coords.clear();
-		for(int z=0;z<N;z++) {
-			for(int x=0;x<N;x++) {
-				Vector vtemp=VectorFunctions.VGet(x_component_buf.get(), y_component_buf.get(), z_component_buf.get());
+		for(int z=0;z<=N;z++) {
+			for(int x=0;x<=N;x++) {
+				int index=(z%N)*N+(x%N);
+				
+				Vector vtemp=VectorFunctions.VGet(
+						x_component_buf.get(index),
+						y_component_buf.get(index),
+						z_component_buf.get(index));
 				vtemp=VectorFunctions.VAdd(vtemp, VectorFunctions.VGet(x, 0.0f, z));
 				
 				coords.add(vtemp);
 			}
 		}
+		
+		System.out.println(coords.size());
 	}
 	
 	public List<Vector> GetCoords(){

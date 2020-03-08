@@ -28,5 +28,9 @@ class ProgramCreator {
 				"inv_and_perm", 
 				"./Data/Shader/330/ocean/inv_and_perm/vshader.glsl",
 				"./Data/Shader/330/ocean/inv_and_perm/fshader.glsl");
+		GLShaderFunctions.CreateProgram(
+				"ocean_drawer", 
+				"./Data/Shader/330/ocean/ocean_drawer/vshader.glsl",
+				"./Data/Shader/330/ocean/ocean_drawer/fshader.glsl");
 	}
 }
