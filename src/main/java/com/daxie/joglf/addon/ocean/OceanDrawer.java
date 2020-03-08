@@ -2,6 +2,7 @@ package com.daxie.joglf.addon.ocean;
 
 import java.util.List;
 
+import com.daxie.basis.coloru8.ColorU8;
 import com.daxie.basis.coloru8.ColorU8Functions;
 import com.daxie.basis.vector.Vector;
 import com.daxie.basis.vector.VectorFunctions;
@@ -17,6 +18,18 @@ public class OceanDrawer {
 	private DynamicTrianglesDrawer drawer;
 	private ShaderProgram program;
 	
+	private Vector light_direction;
+	private ColorU8 ambient_color;
+	private float diffuse_power;
+	private float specular_power;
+	private ColorU8 water_diffuse_color;
+	private ColorU8 water_specular_color;
+	private float water_refractive_index;
+	
+	private float fog_start;
+	private float fog_end;
+	private ColorU8 fog_color;
+	
 	public OceanDrawer(int N,float L,float A,float v,float wx,float wz) {
 		this.N=N;
 		
@@ -25,6 +38,20 @@ public class OceanDrawer {
 		program=new ShaderProgram("ocean_drawer");
 		
 		CameraFront.AddProgram("ocean_drawer");
+		
+		light_direction=VectorFunctions.VGet(-1.0f, -1.0f, -1.0f);
+		light_direction=VectorFunctions.VNorm(light_direction);
+		
+		ambient_color=ColorU8Functions.GetColorU8(0.0f, 0.0f, 0.0f, 1.0f);
+		diffuse_power=1.2f;
+		specular_power=3.0f;
+		water_diffuse_color=ColorU8Functions.GetColorU8(47, 79, 79, 255);
+		water_specular_color=ColorU8Functions.GetColorU8(1.0f, 1.0f, 1.0f, 1.0f);
+		water_refractive_index=1.33f;
+		
+		fog_start=800.0f;
+		fog_end=1000.0f;
+		fog_color=ColorU8Functions.GetColorU8(0.0f, 0.0f, 0.0f, 1.0f);
 	}
 	
 	public void SetParameters(float L,float A,float v,float wx,float wz) {
@@ -143,30 +170,62 @@ public class OceanDrawer {
 	private void UpdateUniformVariables() {
 		program.Enable();
 		
-		Vector light_direction=VectorFunctions.VGet(2.0f, -1.0f, -1.0f);
-		light_direction=VectorFunctions.VNorm(light_direction);
 		program.SetUniform("light_direction", light_direction);
+		program.SetUniform("ambient_color", ambient_color);
+		program.SetUniform("diffuse_power", diffuse_power);
+		program.SetUniform("specular_power", specular_power);
+		program.SetUniform("water_diffuse_color", water_diffuse_color);
+		program.SetUniform("water_specular_color", water_specular_color);
+		program.SetUniform("water_refractive_index", water_refractive_index);
 		
-		program.SetUniform("ambient_color", ColorU8Functions.GetColorU8(0.0f, 0.0f, 0.0f, 0.0f));
-		program.SetUniform("diffuse_power", 0.7f);
-		program.SetUniform("specular_power", 3.0f);
-		program.SetUniform("water_diffuse_color", ColorU8Functions.GetColorU8(0.25f, 0.58f, 0.92f, 1.0f));
-		program.SetUniform("water_specular_color", ColorU8Functions.GetColorU8(1.0f, 1.0f, 1.0f, 1.0f));
-		program.SetUniform("water_refractive_index", 1.33f);
-		
-		program.SetUniform("fog_start", 800.0f);
-		program.SetUniform("fog_end", 1000.0f);
-		program.SetUniform("fog_color", ColorU8Functions.GetColorU8(0.0f, 0.0f, 0.0f, 1.0f));
+		program.SetUniform("fog_start", fog_start);
+		program.SetUniform("fog_end", fog_end);
+		program.SetUniform("fog_color", fog_color);
 	}
 	
-	public void Draw() {
+	public void SetAmbientColor(ColorU8 ambient_color) {
+		this.ambient_color=ambient_color;
+	}
+	public void SetDiffusePower(float diffuse_power) {
+		this.diffuse_power=diffuse_power;
+	}
+	public void SetSpecularPower(float specular_power) {
+		this.specular_power=specular_power;
+	}
+	public void SetWaterDiffuseColor(ColorU8 water_diffuse_color) {
+		this.water_diffuse_color=water_diffuse_color;
+	}
+	public void SetWaterSpecularColor(ColorU8 water_specular_color) {
+		this.water_specular_color=water_specular_color;
+	}
+	public void SetWaterRefractiveIndex(float water_refractive_index) {
+		this.water_refractive_index=water_refractive_index;
+	}
+	public void SetFogStartEnd(float fog_start,float fog_end) {
+		this.fog_start=fog_start;
+		this.fog_end=fog_end;
+	}
+	public void SetFogColor(ColorU8 fog_color) {
+		this.fog_color=fog_color;
+	}
+	
+	public void Draw(int x_repeat_num,int z_repeat_num,Vector center) {
 		program.Enable();
+		
+		float x_length=(float)(N*x_repeat_num);
+		float z_length=(float)(N*z_repeat_num);
+		float x_center=x_length/2.0f;
+		float z_center=z_length/2.0f;
+		
+		float x_init=center.GetX()-x_center;
+		float y_init=center.GetY();
+		float z_init=center.GetZ()-z_center;
 		
 		float offset_x=0.0f;
 		float offset_z=0.0f;
-		for(int i=0;i<15;i++) {
-			for(int j=0;j<15;j++) {
-				program.SetUniform("offset", VectorFunctions.VGet(offset_x, 0.0f, offset_z));
+		for(int i=0;i<z_repeat_num;i++) {
+			for(int j=0;j<x_repeat_num;j++) {
+				program.SetUniform("offset", VectorFunctions.VGet(x_init+offset_x, y_init, z_init+offset_z));
 				program.SetUniform("scale", VectorFunctions.VGet(1.0f, 1.0f, 1.0f));
 				drawer.Transfer();
 				
