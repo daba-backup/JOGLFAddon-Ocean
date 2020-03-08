@@ -17,8 +17,9 @@ out vec3 vs_out_normal;
 
 void main(){
     mat4 camera_matrix=projection*view_transformation;
-    gl_Position=camera_matrix*vec4((vs_in_position+offset)*scale,1.0);
+    vec3 new_pos=(vs_in_position+offset)*scale;
+    gl_Position=camera_matrix*vec4(new_pos,1.0);
 
-    vs_out_position=vs_in_position;
+    vs_out_position=new_pos;
     vs_out_normal=vs_in_normal;
 }

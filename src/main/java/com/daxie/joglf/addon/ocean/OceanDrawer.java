@@ -7,7 +7,6 @@ import com.daxie.basis.vector.Vector;
 import com.daxie.basis.vector.VectorFunctions;
 import com.daxie.joglf.gl.drawer.DynamicTrianglesDrawer;
 import com.daxie.joglf.gl.front.CameraFront;
-import com.daxie.joglf.gl.front.FogFront;
 import com.daxie.joglf.gl.shader.ShaderProgram;
 import com.daxie.joglf.gl.shape.Triangle;
 
@@ -26,7 +25,6 @@ public class OceanDrawer {
 		program=new ShaderProgram("ocean_drawer");
 		
 		CameraFront.AddProgram("ocean_drawer");
-		FogFront.AddProgram("ocean_drawer");
 	}
 	
 	public void SetParameters(float L,float A,float v,float wx,float wz) {
@@ -84,6 +82,27 @@ public class OceanDrawer {
 				vertex_normals[z*(N+1)+(x+1)]=VectorFunctions.VAdd(vertex_normals[z*(N+1)+(x+1)], n2);
 				vertex_normals[z*(N+1)+x]=VectorFunctions.VAdd(vertex_normals[z*(N+1)+x], n2);
 				
+				if(z==0) {
+					vertex_normals[N*(N+1)+x]=VectorFunctions.VAdd(vertex_normals[N*(N+1)+x], n1);
+					vertex_normals[N*(N+1)+(x+1)]=VectorFunctions.VAdd(vertex_normals[N*(N+1)+(x+1)], n1);
+					vertex_normals[N*(N+1)+(x+1)]=VectorFunctions.VAdd(vertex_normals[N*(N+1)+(x+1)], n2);
+				}
+				if(z==N-1) {
+					vertex_normals[x]=VectorFunctions.VAdd(vertex_normals[x], n1);
+					vertex_normals[x+1]=VectorFunctions.VAdd(vertex_normals[x+1], n1);
+					vertex_normals[x+1]=VectorFunctions.VAdd(vertex_normals[x+1], n2);
+				}
+				if(x==0) {
+					vertex_normals[(z+1)*(N+1)+N]=VectorFunctions.VAdd(vertex_normals[(z+1)*(N+1)+N], n1);
+					vertex_normals[(z+1)*(N+1)+N]=VectorFunctions.VAdd(vertex_normals[(z+1)*(N+1)+N], n2);
+					vertex_normals[z*(N+1)+N]=VectorFunctions.VAdd(vertex_normals[z*(N+1)+N], n2);
+				}
+				if(x==N-1) {
+					vertex_normals[(z+1)*(N+1)]=VectorFunctions.VAdd(vertex_normals[(z+1)*(N+1)], n1);
+					vertex_normals[(z+1)*(N+1)]=VectorFunctions.VAdd(vertex_normals[(z+1)*(N+1)], n2);
+					vertex_normals[z*(N+1)]=VectorFunctions.VAdd(vertex_normals[z*(N+1)], n2);
+				}
+				
 				//First triangle
 				for(int i=0;i<3;i++) {
 					triangles[0].GetVertex(i).SetPos(positions[i]);
@@ -124,7 +143,7 @@ public class OceanDrawer {
 	private void UpdateUniformVariables() {
 		program.Enable();
 		
-		Vector light_direction=VectorFunctions.VGet(-1.0f, -1.0f, -1.0f);
+		Vector light_direction=VectorFunctions.VGet(2.0f, -1.0f, -1.0f);
 		light_direction=VectorFunctions.VNorm(light_direction);
 		program.SetUniform("light_direction", light_direction);
 		
@@ -134,6 +153,10 @@ public class OceanDrawer {
 		program.SetUniform("water_diffuse_color", ColorU8Functions.GetColorU8(0.25f, 0.58f, 0.92f, 1.0f));
 		program.SetUniform("water_specular_color", ColorU8Functions.GetColorU8(1.0f, 1.0f, 1.0f, 1.0f));
 		program.SetUniform("water_refractive_index", 1.33f);
+		
+		program.SetUniform("fog_start", 800.0f);
+		program.SetUniform("fog_end", 1000.0f);
+		program.SetUniform("fog_color", ColorU8Functions.GetColorU8(0.0f, 0.0f, 0.0f, 1.0f));
 	}
 	
 	public void Draw() {
@@ -141,8 +164,8 @@ public class OceanDrawer {
 		
 		float offset_x=0.0f;
 		float offset_z=0.0f;
-		for(int i=0;i<5;i++) {
-			for(int j=0;j<5;j++) {
+		for(int i=0;i<15;i++) {
+			for(int j=0;j<15;j++) {
 				program.SetUniform("offset", VectorFunctions.VGet(offset_x, 0.0f, offset_z));
 				program.SetUniform("scale", VectorFunctions.VGet(1.0f, 1.0f, 1.0f));
 				drawer.Transfer();

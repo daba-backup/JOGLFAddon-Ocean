@@ -13,15 +13,14 @@ uniform float specular_power;
 uniform vec4 water_diffuse_color;
 uniform vec4 water_specular_color;
 uniform float water_refractive_index;
-//==========
 
 uniform float fog_start;
 uniform float fog_end;
+uniform vec4 fog_color;
+//==========
 
 in vec3 vs_out_position;
 in vec3 vs_out_normal;
-
-uniform vec4 fog_color;
 
 out vec4 fs_out_color;
 
