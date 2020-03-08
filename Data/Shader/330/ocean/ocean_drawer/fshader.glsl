@@ -5,11 +5,11 @@ uniform vec3 camera_target;
 uniform float camera_near;
 uniform float camera_far;
 
+//Additional uniform variables
 uniform vec3 light_direction;
 uniform vec4 ambient_color;
 uniform float diffuse_power;
 uniform float specular_power;
-//Additional uniform variables
 uniform vec4 water_diffuse_color;
 uniform vec4 water_specular_color;
 uniform float water_refractive_index;
