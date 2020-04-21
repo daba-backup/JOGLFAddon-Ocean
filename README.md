@@ -10,7 +10,9 @@ This addon helps generate heightmaps for ocean terrain.
 <dependency>
     <groupId>com.github.dabasan</groupId>
     <artifactId>joglfaddon-ocean</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
+
+![Imgur](https://i.imgur.com/w0DmGiH.png)
 
