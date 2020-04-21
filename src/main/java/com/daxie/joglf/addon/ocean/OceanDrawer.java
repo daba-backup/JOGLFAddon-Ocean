@@ -11,6 +11,11 @@ import com.daxie.joglf.gl.front.CameraFront;
 import com.daxie.joglf.gl.shader.ShaderProgram;
 import com.daxie.joglf.gl.shape.Triangle;
 
+/**
+ * Ocean drawer
+ * @author Daba
+ *
+ */
 public class OceanDrawer {
 	private int N;
 	
@@ -56,6 +61,31 @@ public class OceanDrawer {
 	
 	public void SetParameters(float L,float A,float v,float wx,float wz) {
 		ohg.Prepare(L, A, v, wx, wz);
+	}
+	public void SetAmbientColor(ColorU8 ambient_color) {
+		this.ambient_color=ambient_color;
+	}
+	public void SetDiffusePower(float diffuse_power) {
+		this.diffuse_power=diffuse_power;
+	}
+	public void SetSpecularPower(float specular_power) {
+		this.specular_power=specular_power;
+	}
+	public void SetWaterDiffuseColor(ColorU8 water_diffuse_color) {
+		this.water_diffuse_color=water_diffuse_color;
+	}
+	public void SetWaterSpecularColor(ColorU8 water_specular_color) {
+		this.water_specular_color=water_specular_color;
+	}
+	public void SetWaterRefractiveIndex(float water_refractive_index) {
+		this.water_refractive_index=water_refractive_index;
+	}
+	public void SetFogStartEnd(float fog_start,float fog_end) {
+		this.fog_start=fog_start;
+		this.fog_end=fog_end;
+	}
+	public void SetFogColor(ColorU8 fog_color) {
+		this.fog_color=fog_color;
 	}
 	
 	public void AdvanceTime(float t) {
@@ -181,32 +211,6 @@ public class OceanDrawer {
 		program.SetUniform("fog_start", fog_start);
 		program.SetUniform("fog_end", fog_end);
 		program.SetUniform("fog_color", fog_color);
-	}
-	
-	public void SetAmbientColor(ColorU8 ambient_color) {
-		this.ambient_color=ambient_color;
-	}
-	public void SetDiffusePower(float diffuse_power) {
-		this.diffuse_power=diffuse_power;
-	}
-	public void SetSpecularPower(float specular_power) {
-		this.specular_power=specular_power;
-	}
-	public void SetWaterDiffuseColor(ColorU8 water_diffuse_color) {
-		this.water_diffuse_color=water_diffuse_color;
-	}
-	public void SetWaterSpecularColor(ColorU8 water_specular_color) {
-		this.water_specular_color=water_specular_color;
-	}
-	public void SetWaterRefractiveIndex(float water_refractive_index) {
-		this.water_refractive_index=water_refractive_index;
-	}
-	public void SetFogStartEnd(float fog_start,float fog_end) {
-		this.fog_start=fog_start;
-		this.fog_end=fog_end;
-	}
-	public void SetFogColor(ColorU8 fog_color) {
-		this.fog_color=fog_color;
 	}
 	
 	public void Draw(int x_repeat_num,int z_repeat_num,Vector center) {

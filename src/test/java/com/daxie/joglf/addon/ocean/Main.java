@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 		GLFront.Setup(GLVersion.GL4);
 		
-		JOGLFWindow window=new OceanDrawerTestWindow();
+		JOGLFWindow window=new OceanHeightmapDrawerTestWindow();
 		window.SetExitProcessWhenDestroyed();
 	}
 }
