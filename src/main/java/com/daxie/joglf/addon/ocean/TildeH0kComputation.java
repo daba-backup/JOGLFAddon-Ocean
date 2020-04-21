@@ -5,10 +5,12 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.daxie.joglf.gl.shader.ShaderProgram;
 import com.daxie.joglf.gl.transferrer.FullscreenQuadTransferrer;
 import com.daxie.joglf.gl.wrapper.GLWrapper;
-import com.daxie.log.LogWriter;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL4;
 
@@ -18,6 +20,8 @@ import com.jogamp.opengl.GL4;
  *
  */
 class TildeH0kComputation {
+	private Logger logger=LoggerFactory.getLogger(TildeH0kComputation.class);
+	
 	private int N;
 	private float L;
 	private float A;
@@ -105,8 +109,9 @@ class TildeH0kComputation {
 		GLWrapper.glFramebufferTexture2D(
 				GL4.GL_FRAMEBUFFER, GL4.GL_COLOR_ATTACHMENT1, 
 				GL4.GL_TEXTURE_2D, tilde_h0minusk_id, 0);
-		if(GLWrapper.glCheckFramebufferStatus(GL4.GL_FRAMEBUFFER)!=GL4.GL_FRAMEBUFFER_COMPLETE) {
-			LogWriter.WriteWarn("[TildeH0kComputation-SetupFramebuffer] Incomplete framebuffer", true);
+		int status=GLWrapper.glCheckFramebufferStatus(GL4.GL_FRAMEBUFFER);
+		if(status!=GL4.GL_FRAMEBUFFER_COMPLETE){
+			logger.error("Incomplete framebuffer. status={}",status);
 		}
 		int[] draw_buffers=new int[] {GL4.GL_COLOR_ATTACHMENT0,GL4.GL_COLOR_ATTACHMENT1};
 		GLWrapper.glDrawBuffers(2, Buffers.newDirectIntBuffer(draw_buffers));

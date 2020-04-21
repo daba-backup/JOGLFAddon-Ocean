@@ -3,10 +3,12 @@ package com.daxie.joglf.addon.ocean;
 import java.nio.Buffer;
 import java.nio.IntBuffer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.daxie.joglf.gl.shader.ShaderProgram;
 import com.daxie.joglf.gl.transferrer.FullscreenQuadTransferrer;
 import com.daxie.joglf.gl.wrapper.GLWrapper;
-import com.daxie.log.LogWriter;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL4;
 
@@ -16,6 +18,8 @@ import com.jogamp.opengl.GL4;
  *
  */
 class ButterflyTextureGenerator {
+	private Logger logger=LoggerFactory.getLogger(ButterflyTextureGenerator.class);
+	
 	private int N;
 	
 	private int fbo_id;
@@ -93,8 +97,9 @@ class ButterflyTextureGenerator {
 		GLWrapper.glFramebufferTexture2D(
 				GL4.GL_FRAMEBUFFER, GL4.GL_COLOR_ATTACHMENT0, 
 				GL4.GL_TEXTURE_2D, out_color_id, 0);
-		if(GLWrapper.glCheckFramebufferStatus(GL4.GL_FRAMEBUFFER)!=GL4.GL_FRAMEBUFFER_COMPLETE) {
-			LogWriter.WriteWarn("[ButterflyTextureGenerator-SetupFramebuffer] Incomplete framebuffer", true);
+		int status=GLWrapper.glCheckFramebufferStatus(GL4.GL_FRAMEBUFFER);
+		if(status!=GL4.GL_FRAMEBUFFER_COMPLETE){
+			logger.error("Incomplete framebuffer. status={}",status);
 		}
 		int[] draw_buffers=new int[] {GL4.GL_COLOR_ATTACHMENT0};
 		GLWrapper.glDrawBuffers(1, Buffers.newDirectIntBuffer(draw_buffers));
